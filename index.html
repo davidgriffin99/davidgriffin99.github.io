@@ -38,29 +38,25 @@
 
         /* --- Content Layout --- */
         .content-wrap {
+            position: relative;
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 24px 40px;
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            align-items: flex-start;
         }
 
-        /* --- Main Content (center) --- */
+        /* --- Main Content (true center) --- */
         main {
             max-width: 640px;
-            width: 100%;
+            margin: 0 auto;
             text-align: center;
         }
 
-        /* --- Sidebar (far right) --- */
+        /* --- Sidebar (pinned to far right) --- */
         .sidebar {
             width: 220px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 40px;
-            margin-left: auto;
+            position: fixed;
+            right: max(24px, calc((100vw - 1200px) / 2 + 24px));
+            top: 160px;
         }
 
         /* --- Callout Box --- */

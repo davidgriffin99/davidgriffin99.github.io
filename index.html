@@ -38,26 +38,29 @@
 
         /* --- Content Layout --- */
         .content-wrap {
-            max-width: 960px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 60px 24px 40px;
             display: flex;
-            gap: 48px;
+            justify-content: center;
+            gap: 0;
             align-items: flex-start;
         }
 
-        /* --- Main Content (left) --- */
+        /* --- Main Content (center) --- */
         main {
-            flex: 1;
-            min-width: 0;
+            max-width: 640px;
+            width: 100%;
+            text-align: center;
         }
 
-        /* --- Sidebar (right) --- */
+        /* --- Sidebar (far right) --- */
         .sidebar {
-            width: 240px;
+            width: 220px;
             flex-shrink: 0;
             position: sticky;
             top: 40px;
+            margin-left: auto;
         }
 
         /* --- Callout Box --- */
@@ -147,6 +150,7 @@
         .post p {
             font-size: 1.02rem;
             color: #bdc3c7;
+            text-align: left;
         }
 
         .post p + p {

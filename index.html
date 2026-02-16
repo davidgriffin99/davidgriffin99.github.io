@@ -3,56 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nicolas Ventures</title>
+    <title>Nicolas Ventures — Helping people with special needs help themselves</title>
+    <meta name="description" content="Nicolas Ventures helps people with special needs help themselves. Big steps or baby steps.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: #2c3e50;
-            color: white;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        /* --- Header --- */
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            color: #ffffff;
+            margin-bottom: 0.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        header .tagline {
+            font-size: 1.15rem;
+            color: #a0b4c8;
+            font-style: italic;
+        }
+
+        /* --- Callout Box --- */
+        .callout {
+            max-width: 520px;
+            margin: -20px auto 0;
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            padding: 30px 35px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.15);
+        }
+
+        .callout .number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #3498db;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .callout .label {
+            font-size: 1.05rem;
+            color: #d4e6f1;
+            margin-bottom: 16px;
+        }
+
+        .callout .divider-line {
+            width: 50px;
+            height: 2px;
+            background-color: #3498db;
+            margin: 0 auto 16px;
+            opacity: 0.5;
+        }
+
+        .callout .challenge {
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* --- Main Content --- */
+        main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 60px 24px 40px;
+        }
+
+        /* --- About --- */
+        .about {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #2a2a4a;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            color: #c8d6e5;
             text-align: center;
         }
-        .container {
-            max-width: 600px;
-            padding: 40px 20px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .tagline {
+
+        /* --- Posts --- */
+        .posts h2 {
             font-size: 1.1rem;
+            color: #5dade2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .post {
+            margin-bottom: 48px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #2a2a4a;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post h3 {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .post .date {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 16px;
+        }
+
+        .post p {
+            font-size: 1.02rem;
             color: #bdc3c7;
-            margin-bottom: 2rem;
         }
-        .divider {
-            width: 60px;
-            height: 3px;
-            background-color: #3498db;
-            margin: 0 auto 2rem;
-        }
-        .message {
-            font-size: 1.3rem;
-            color: #ecf0f1;
-            margin-bottom: 1rem;
-        }
-        .sub {
-            color: #95a5a6;
-            font-size: 0.95rem;
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #2a2a4a;
+            color: #5d6d7e;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <header>
         <h1>Nicolas Ventures</h1>
         <p class="tagline">Helping people with special needs help themselves</p>
-        <div class="divider"></div>
-        <p class="message">Under Construction</p>
-        <p class="sub">Something new is on the way. Check back soon.</p>
+    </header>
+
+    <div class="callout">
+        <div class="number">6</div>
+        <div class="label">people with special needs we've worked with</div>
+        <div class="divider-line"></div>
+        <div class="challenge">How many have you worked with?</div>
     </div>
+
+    <main>
+
+        <section class="about">
+            <p>We believe in empowering individuals with special needs to help themselves. These might be big steps or baby steps. Either way, they count.</p>
+        </section>
+
+        <section class="posts">
+            <h2>Journal</h2>
+
+            <article class="post">
+                <h3>Can technology help?</h3>
+                <p class="date">January 24, 2026</p>
+                <p>We have fun with technology... and believe it can help people with special needs. It can come in various forms. It might allow a person with special needs to live by themselves. It might help them be or feel safe. It might help with coping through a tough day. More to come!</p>
+            </article>
+
+            <article class="post">
+                <h3>What's something different about Nicolas Ventures?</h3>
+                <p class="date">January 17, 2026</p>
+                <p>Many charitable organizations will do job-training. Or they will volunteer at businesses big and small (paid or unpaid). The big issue with this approach is it's difficult to find businesses that want to engage. Often the business owner or the senior VP has some connection to people with special needs and wants to assist... which is great. But when times get tough, these opportunities often fade away.</p>
+                <p style="margin-top: 12px;">Nicolas Ventures sort of turns this on its head. The idea is more along the lines of running a regular business and always trying to have people with special needs work there in some capacity whenever possible. It's sort of built into the DNA. This is absolutely aspirational! We know how hard this is. So instead of waiting for the perfect opportunity, we think "going small" works too. That's why we ask: how many people with special needs have you hired &mdash; for big or small?</p>
+            </article>
+
+            <article class="post">
+                <h3>About Nicolas Ventures!</h3>
+                <p class="date">January 10, 2026</p>
+                <p>Here at Nicolas Ventures we want to help people with special needs help themselves. This blog will be describing some of what we're doing to make this happen. It's a work-in-progress. Both Nicolas Ventures and this blog itself have much work to do, but it's better to start small and grow than wait for perfection. More to come!</p>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        &copy; 2026 Nicolas Ventures. Empowering individuals with special needs.
+    </footer>
+
 </body>
 </html>

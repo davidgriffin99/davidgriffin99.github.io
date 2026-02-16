@@ -7,6 +7,7 @@
     <meta name="description" content="Nicolas Ventures helps people with special needs help themselves. Big steps or baby steps.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: #1a1a2e;
@@ -34,6 +35,36 @@
             font-size: 1.15rem;
             color: #a0b4c8;
             font-style: italic;
+            margin-bottom: 0;
+        }
+
+        /* --- Nav --- */
+        nav {
+            text-align: center;
+            padding: 16px 20px;
+            background-color: #16213e;
+            border-bottom: 1px solid #2a2a4a;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            color: #7f8c9a;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0 20px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #5dade2;
+            border-bottom-color: #3498db;
         }
 
         /* --- Content Layout --- */
@@ -104,14 +135,32 @@
             margin-bottom: 50px;
             padding-bottom: 36px;
             border-bottom: 1px solid #2a2a4a;
+            scroll-margin-top: 60px;
+        }
+
+        .about h2 {
+            font-size: 1.1rem;
+            color: #5dade2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
         }
 
         .about p {
             font-size: 1.1rem;
             color: #c8d6e5;
+            text-align: left;
+        }
+
+        .about p + p {
+            margin-top: 12px;
         }
 
         /* --- Posts --- */
+        .posts {
+            scroll-margin-top: 60px;
+        }
+
         .posts h2 {
             font-size: 1.1rem;
             color: #5dade2;
@@ -197,15 +246,23 @@
         <p class="tagline">Helping people with special needs help themselves</p>
     </header>
 
+    <nav>
+        <a href="#about" class="active">About</a>
+        <a href="#journal">Journal</a>
+    </nav>
+
     <div class="content-wrap">
 
         <main>
 
-            <section class="about">
+            <section id="about" class="about">
+                <h2>About</h2>
                 <p>We believe in empowering individuals with special needs to help themselves. These might be big steps or baby steps. Either way, they count.</p>
+                <p>Nicolas Ventures is a business &mdash; not a charity. The idea is to run a real company and always try to have people with special needs work there in some capacity whenever possible. It's built into the DNA. We know how hard this is. So instead of waiting for the perfect opportunity, we think going small works too.</p>
+                <p>Technology can help. It might allow a person with special needs to live more independently. It might help them feel safe. It might help with coping through a tough day. We're exploring all of it.</p>
             </section>
 
-            <section class="posts">
+            <section id="journal" class="posts">
                 <h2>Journal</h2>
 
                 <article class="post">
@@ -245,6 +302,20 @@
     <footer>
         &copy; 2026 Nicolas Ventures. Empowering individuals with special needs.
     </footer>
+
+    <script>
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => {
+                if (window.scrollY >= s.offsetTop - 100) current = s.id;
+            });
+            navLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        });
+    </script>
 
 </body>
 </html>

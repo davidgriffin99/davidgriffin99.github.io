@@ -172,9 +172,11 @@
 
 <p>Building AI-powered services usually means rewriting the same infrastructure every time &mdash; secrets management, logging, storage, retry logic, cost tracking. Each service ends up tightly coupled to a specific cloud provider, and swapping anything means rewriting everything.</p>
 
-<p>Flux solves this with a <strong>capability layer</strong>. Services declare <em>what</em> they need ("store this," "fetch that secret," "log this event") and the platform handles <em>how</em>. Switch from local SQLite to Google Cloud Firestore by changing one config file. The service code doesn't change. At all.</p>
+<p>Flux solves this with a <strong>capability layer</strong>. Services declare <em>what</em> they need ("store this," "fetch that secret," "log this event") and the platform handles <em>how</em>. Switch from local SQLite to Google Cloud Firestore to Graphiti graph database (Really good for tiered memory) by changing one config file. The service code doesn't change. At all.</p>
 
 <p>MFlux sits above Flux and asks a harder question: <strong>what if AI agents could compete to build the best implementation of a service, and the platform could score them automatically?</strong></p>
+
+<p>What if we could &ldquo;Grow our apps&rdquo;? I want a rose that's a different color...a different shape...what if we develop software the same way?</p>
 
 <hr>
 

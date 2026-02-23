@@ -190,9 +190,33 @@
 
 <hr>
 
+<h2>The 10 Assumptions</h2>
+
+<p>Truths about the environment. These don't change regardless of cloud provider, LLM, or instance &mdash; they're the inputs we design around.</p>
+
+<table>
+    <thead>
+        <tr><th>#</th><th>Assumption</th><th>Truth</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>1</td><td><strong>Fragility</strong></td><td>Capabilities will fail unpredictably.</td></tr>
+        <tr><td>2</td><td><strong>Impermanence</strong></td><td>Interfaces change faster than software can be rewritten.</td></tr>
+        <tr><td>3</td><td><strong>Ambiguity</strong></td><td>User goals are fluid and often incomplete.</td></tr>
+        <tr><td>4</td><td><strong>Reversibility</strong></td><td>Actions must be reversible or containable.</td></tr>
+        <tr><td>5</td><td><strong>Trust</strong></td><td>Trust is context-dependent and temporary.</td></tr>
+        <tr><td>6</td><td><strong>Memory</strong></td><td>Memory must be durable, scoped, and auditable.</td></tr>
+        <tr><td>7</td><td><strong>Uncertainty</strong></td><td>Systems must act under partial or noisy data.</td></tr>
+        <tr><td>8</td><td><strong>Differentiation</strong></td><td>Models commoditize; workflows and governance differentiate.</td></tr>
+        <tr><td>9</td><td><strong>Explainability</strong></td><td>Every action must be explainable after the fact.</td></tr>
+        <tr><td>10</td><td><strong>Coordination</strong></td><td>Coordination across tools matters more than any single tool.</td></tr>
+    </tbody>
+</table>
+
+<hr>
+
 <h2>The 10 Principles</h2>
 
-<p>Every Flux service is evaluated against these:</p>
+<p>The assumptions tell us what's true. The principles tell us what to do about it. Every Flux service is evaluated against these:</p>
 
 <table>
     <thead>

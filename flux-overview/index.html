@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flux + MFlux: Platform Overview</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-yellow: #d29922;
+            --code-bg: #1c2128;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        h1 {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        h2 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        h3 {
+            font-size: 1.15em;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        strong { color: var(--text); }
+
+        em { color: var(--text-muted); }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 40px 0;
+        }
+
+        ol, ul {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--surface);
+            font-weight: 600;
+        }
+
+        td { background: var(--bg); }
+
+        code {
+            font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05em;
+            margin-bottom: 40px;
+        }
+
+        .score-table td:nth-child(4),
+        .score-table td:nth-child(5),
+        .score-table td:nth-child(6),
+        .score-table td:nth-child(7) {
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .highlight { color: var(--accent-green); font-weight: 600; }
+        .lowlight { color: var(--accent-red); font-weight: 600; }
+        .tag {
+            display: inline-block;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Flux + MFlux: Platform Overview</h1>
+<p class="subtitle">Nicolas Ventures &mdash; AI agent infrastructure</p>
+
+<h2>The Vision</h2>
+
+<p>Nicolas Ventures has an idea for a new venture on Monday morning. By Tuesday, it's a working business &mdash; website infrastructure provisioned, HR policies generated and filed, tax entity created, Shopify storefront configured, payment processing live, domain registered, DNS pointed. Not a plan. Not a proposal deck. A running business, built by AI agents that know how to stand up real infrastructure and get out of the way.</p>
+
+<p>That's what this platform is for. Not one agent doing one trick &mdash; a fleet of specialized services that handle identity, secrets, storage, approvals, cost tracking, and deployment, all coordinated through a shared capability layer. The same platform that spins up a webhook relay today can spin up a business tomorrow. The services are different. The plumbing is the same.</p>
+
+<p>Here's what that looks like in practice. I wanted to show off to my wife &mdash; build a custom Amazon Alexa skill for an integrated to-do list. It took six minutes. That included secrets management, structured logging on the shared log platform (this logging was used to troubleshoot), performance monitoring (we made it faster), authentication (three of those minutes were just navigating Alexa's own GUI to link the skill...I hate services not having APIs!). Pushing the finished service to GitHub. Nine minutes from nothing to a deployed, secured, logged, ready-to-use voice skill, that was integrated into a personal todo list (because everyone has to create their own todo app) &mdash; all because the platform already handles the hard parts.</p>
+
+<hr>
+
+<h2>What Problem Does This Solve?</h2>
+
+<p>Building AI-powered services usually means rewriting the same infrastructure every time &mdash; secrets management, logging, storage, retry logic, cost tracking. Each service ends up tightly coupled to a specific cloud provider, and swapping anything means rewriting everything.</p>
+
+<p>Flux solves this with a <strong>capability layer</strong>. Services declare <em>what</em> they need ("store this," "fetch that secret," "log this event") and the platform handles <em>how</em>. Switch from local SQLite to Google Cloud Firestore by changing one config file. The service code doesn't change. At all.</p>
+
+<p>MFlux sits above Flux and asks a harder question: <strong>what if AI agents could compete to build the best implementation of a service, and the platform could score them automatically?</strong></p>
+
+<hr>
+
+<h2>Goals</h2>
+
+<ol>
+    <li><strong>Write services once, run them anywhere.</strong> 12 capabilities (secrets, storage, logging, identity, cost tracking, approvals, etc.) with swappable connectors. Two profiles today: local (SQLite + filesystem) and GCP (Firestore + GCS + Secret Manager + Cloud Logging). Adding a new backend means writing one connector file, not touching service code.</li>
+    <li><strong>Automate quality judgment.</strong> The evolution engine scores AI-generated code on three axes: functional tests (does it work?), principle adherence (is it well-architected?), and scar tissue checks (did it avoid known pitfalls?). A second LLM acts as the principle judge, reading source code and scoring against 10 architectural rules.</li>
+    <li><strong>Make the platform self-improving.</strong> Competitions produce winners. Winners become the baseline for the next generation. The platform evolves by selection pressure, not manual refactoring.</li>
+</ol>
+
+<hr>
+
+<h2>The 10 Principles</h2>
+
+<p>Every Flux service is evaluated against these:</p>
+
+<table>
+    <thead>
+        <tr><th>#</th><th>Principle</th><th>What It Means</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>1</td><td><strong>Identity</strong></td><td>Secrets via Secret Manager through neutral wrappers. Never hardcoded.</td></tr>
+        <tr><td>2</td><td><strong>Infrastructure</strong></td><td>Serverless compute (Cloud Functions or Cloud Run).</td></tr>
+        <tr><td>3</td><td><strong>Communication</strong></td><td>Exponential backoff + timeouts on all external calls.</td></tr>
+        <tr><td>4</td><td><strong>Logic</strong></td><td>Provider-agnostic function signatures. No raw cloud SDK in app code.</td></tr>
+        <tr><td>5</td><td><strong>Memory</strong></td><td>State lives in managed storage (Firestore), not local files.</td></tr>
+        <tr><td>6</td><td><strong>Persistence</strong></td><td>Atomic writes. No race conditions (e.g., double-approve prevention).</td></tr>
+        <tr><td>7</td><td><strong>Reflexivity</strong></td><td>Structured logging with a "why" field on every entry.</td></tr>
+        <tr><td>8</td><td><strong>Sovereignty</strong></td><td>High-risk actions require explicit human approval before execution.</td></tr>
+        <tr><td>9</td><td><strong>Discovery</strong></td><td>Every service registered in an inventory. Gateway auto-discovers.</td></tr>
+        <tr><td>10</td><td><strong>Temporality</strong></td><td>Dry-run mode: evaluate decisions without side effects.</td></tr>
+    </tbody>
+</table>
+
+<p>These aren't aspirational. They're enforced &mdash; the evolution engine scores each one 0&ndash;2, and an agent that passes every functional test can still lose if it violates the principles. (Keep reading &mdash; this happened.)</p>
+
+<hr>
+
+<h2>What's Running Today</h2>
+
+<p><strong>Flux v4</strong> &mdash; 23 services on a single VM, GCP profile active, 12/12 connectors healthy:</p>
+
+<table>
+    <thead>
+        <tr><th>Services</th><th>Capabilities</th><th>Tests</th><th>Build Cost</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>23 loaded (19 active on GCP)</td><td>12 capabilities, 15 connectors</td><td>588+ unit, 57 integration</td><td>~$17 in API calls</td></tr>
+    </tbody>
+</table>
+
+<p>Notable services: webhook-relay (LLM urgency classification), approval-relay (risk-assessed action queue), domain-brainstorm (LLM + WhoisFreaks), story-renderer (YAML-to-video pipeline), knowledge-base, rate-limiter (Firestore transactions), rook (personal task queue from Excel).</p>
+
+<p><strong>MFlux</strong> &mdash; Meta-layer managing multiple Flux instances:</p>
+
+<table>
+    <thead>
+        <tr><th>Tests</th><th>Challenge Specs</th><th>Competition Runs</th><th>Languages Competed</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>607</td><td>2 (approval-relay, request-journal)</td><td>2 completed</td><td>Python, Go, TypeScript, Rust</td></tr>
+    </tbody>
+</table>
+
+<p>Live gateway: deployed on Cloud Run. Namespace management, secrets, budgets, and the evolution engine all operational.</p>
+
+<hr>
+
+<h2>How This Platform Can Grow</h2>
+
+<p><strong>More connectors.</strong> AWS equivalents (DynamoDB for flux.db, S3 for flux.store, CloudWatch for flux.log) would be one connector file each. An Azure profile the same. Services wouldn't change.</p>
+
+<p><strong>More challenge specs.</strong> Each new YAML spec is a new competition. Any well-specified service can become a challenge &mdash; rate-limiter, notification fanout, data pipelines, ML inference wrappers.</p>
+
+<p><strong>Multi-generation evolution.</strong> Today the engine runs single-generation competitions. The architecture supports breeding (combine the best genome traits), mutation, and multi-generation loops. Winners from generation 0 seed generation 1.</p>
+
+<p><strong>Cross-model competitions.</strong> Agents can be backed by different LLMs &mdash; Claude, GPT, Gemini. Scoring is model-agnostic. Early runs suggest model choice matters less than seed quality.</p>
+
+<p><strong>Fleet management.</strong> MFlux already manages multiple Flux instances with separate identities, secrets, and budgets. Scaling from 2 to 20 is infrastructure, not architecture.</p>
+
+<p><strong>Agent swarms.</strong> The capability layer doesn't care who's calling it &mdash; a human, a single agent, or fifty agents working in parallel. Because every service already has identity, secrets, logging, approvals, and cost tracking baked in, you can point a swarm of agents at a problem and the platform handles coordination naturally. Each agent gets its own identity, its own budget ceiling, its own audit trail. High-risk actions still require human approval regardless of which agent initiated them. The evolution engine is already a proof of concept: four agents building competing implementations simultaneously, scored automatically, no human in the loop until the results are in. Extending that pattern to runtime &mdash; agents collaborating on a task, dividing work, merging results &mdash; is plumbing, not architecture.</p>
+
+<p><strong>Ontology layer.</strong> Built from the start as a platform that could support an ontological layer &mdash; typed objects with links, properties, and actions spanning all services &mdash; this is the next major capability on the roadmap. Adding it unlocks cross-service context (an agent can trace a Rook task back to the webhook event that triggered it), data-driven session briefings from live system state instead of static memory files, and automated cross-service rules that today require manual wiring. The capability layer makes this a thin addition &mdash; one more Cloud Function, same connectors underneath.</p>
+
+<hr>
+
+<h2>Interesting Use Cases</h2>
+
+<p><strong>AI agent code review.</strong> The principle judge already reads source code and scores it against architectural rules &mdash; design intent, not just syntax.</p>
+
+<p><strong>Self-healing services.</strong> Service fails health check? Trigger an evolution run. The engine generates a new implementation from the spec, tests it, deploys the winner.</p>
+
+<p><strong>Spec-driven development.</strong> Write a YAML spec. Hand it to the evolution engine. Get back a deployed, tested, scored implementation. Skip the boilerplate phase.</p>
+
+<p><strong>Multi-cloud migration.</strong> Write connectors for AWS/Azure. Run the same services on both. Compare costs and reliability empirically &mdash; it's a config change, not a rewrite.</p>
+
+<p><strong>Personal AI infrastructure.</strong> This is what Flux already is &mdash; Telegram messages, GitHub webhooks, domain brainstorming, task management, and content generation all flowing through one system with shared identity, logging, and cost tracking. One person, 23 services, $17. No need for OpenClaw, no need for n8n, no need for Zapier. I just built my own &mdash; tailored to exactly how I work, integrated with exactly the services I use, and it just works. That's the point: the capability layer makes building your own agent infrastructure faster than configuring someone else's.</p>
+
+<p><strong>Emergent API combinations.</strong> There's an explosion of useful API services happening right now, and it's moving too fast for any human to track. RunPod.io for ephemeral GPUs at near-zero cost (I used Google's GemmaMed specialized model that can read EPIC healthcare records with amazing results...all private). Cloudflare Durable Objects &mdash; persistent, stateful containers that give agent swarms long-lived sessions and open up combinations that weren't possible with stateless functions alone. Web-to-markdown services that let agents read any website cleanly without headless browser automation. New agent-native APIs are launching constantly, many designed specifically for machine consumption rather than human UIs. We keep discovering services we didn't know existed a few weeks ago that solve problems we were overengineering around. The platform makes this compounding instead of chaotic &mdash; every new connector (Cloudflare, AWS, Azure, HubSpot, and hundreds more) plugs into the same capability layer, and agents that understand the full library start composing services in ways you wouldn't think of. A human building sequentially picks the tools they know. An agent with access to the full catalog finds combinations the human would miss.</p>
+
+<p><strong>Agent-native payments.</strong> Add stablecoin wallets and protocols like x402 for machine-to-machine payments, and agents stop needing a human to authorize every transaction. Microtransactions become native &mdash; an agent can pay for a GPU burst on RunPod, purchase a domain, top up an API quota, or settle a service fee, all within the platform's existing approval and budget framework. Low-value transactions execute automatically; high-value ones still route through human sovereignty. The plumbing for cost tracking and budget ceilings is already there.</p>
+
+<hr>
+
+<h2>The Numbers</h2>
+
+<pre><code>Platform services:                23
+Capabilities:                     12 (with 15 connectors across 2 profiles)
+Unit tests:                      588+
+Integration tests:                57
+mflux tests:                     607
+Evolution competitions run:        2
+Challenge specs:                   2 (approval-relay, request-journal)
+Languages competed:                4 (Python, Go, TypeScript, Rust)
+Total agents scored:               7
+Highest score:                    86.0 (Python and Rust, tied)
+Most revealing result:            61/63 tests passed, 2/20 principles &mdash; passing tests isn't enough
+Biggest lesson:                   "Import fetch_secret" &gt; "implement hexagonal architecture"
+Total build cost:                ~$17 in API calls
+Infrastructure:                   1 VM (e2-medium, 4GB RAM) + Cloud Functions + Cloud Run
+Nothing is mocked.</code></pre>
+
+<hr>
+
+<h2>The Evolution Engine in Action</h2>
+
+<p>This is the part where AI agents compete head-to-head.</p>
+
+<h3>The Challenge</h3>
+
+<p>Agents build an "approval-relay" &mdash; a serverless GCP service that receives action requests, risk-assesses them, executes low-risk ones immediately, and queues high-risk ones for human approval. Two endpoints, Firestore state, secrets via neutral-intent wrappers, structured logging, dry-run mode. All 10 principles exercised.</p>
+
+<p>Here's the trimmed spec each agent receives:</p>
+
+<pre><code>name: approval-relay
+version: "2.0"
+
+challenge:
+  summary: |
+    Build and deploy a serverless GCP service called "approval-relay" that receives
+    action requests, assesses their risk level, executes low-risk actions immediately,
+    and queues high-risk actions for explicit approval. A separate /resolve endpoint
+    approves or rejects pending actions. All external interactions MUST use neutral-intent
+    wrappers. Must support dry_run mode.
+
+  flow: |
+    POST /action &mdash; Submit an action request
+    1. Validate: reject 400 if action/target/source missing
+    2. Assess risk:
+       - LOW:  action="notify" OR (action="transfer" AND amount &lt;= 100)
+       - HIGH: action="delete" OR (action="transfer" AND amount &gt; 100)
+    3a. LOW-RISK: fetch secret -&gt; POST httpbin.org -&gt; write Firestore -&gt; return 200
+    3b. HIGH-RISK: write to pending-approvals -&gt; return 202
+
+    POST /resolve &mdash; Approve or reject a pending action
+    1. Fetch pending approval from Firestore
+    2. If approved: execute the original action
+    3. If rejected: mark rejected, done
+    4. Double-approve returns 409
+
+  neutral_intent_requirement: |
+    ALL instances must provide language-appropriate neutral-intent wrappers:
+    - fetch_secret(secret_name)
+    - retry_with_backoff(callable, ...)
+    - create_logger()
+    Direct use of raw cloud SDK secret clients is a disqualifier.</code></pre>
+
+<p>19 automated test cases, weighted by importance. The big ones (5 points each): low-risk execute, high-risk pending, approve pending. The principle judge (Gemini Flash) then reads the source code and scores 0&ndash;2 on each of the 10 principles. Scar tissue checks look for things like missing timeouts, hardcoded secrets, plain text errors.</p>
+
+<h3>The Seeds (What Makes Agents Different)</h3>
+
+<p>Each agent starts from a "seed" &mdash; a genome describing the platform's language, architecture, and lessons learned. Here are two that competed head-to-head:</p>
+
+<p><strong>flux-001 (Python, shared library)</strong></p>
+
+<pre><code>## Architectural Style
+- Shared library: All cloud operations go through lib/caf_helpers neutral intents.
+  Import fetch_secret, create_logger, retry_with_backoff from lib.caf_helpers.
+  Never use raw google.cloud.* in application code.
+- Structured logging: Use create_logger() from caf_helpers. Every log entry
+  needs a "why" field explaining the human-readable reason.
+- Deploy pipeline: ./tools/deploy.sh services/&lt;name&gt; handles gen2 flags,
+  AST-based entry-point detection, lib/ staging, smoke test, and registry update.</code></pre>
+
+<p><strong>flux-005-rapidpulse (TypeScript, dependency injection)</strong></p>
+
+<pre><code>## Architectural Style
+- Language: TypeScript (Node.js 20 runtime)
+- File structure:
+  - services/&lt;name&gt;/src/index.ts (function handler)
+  - services/&lt;name&gt;/src/core/ (business logic)
+  - services/&lt;name&gt;/src/neutral/ (interfaces + intent types)
+  - services/&lt;name&gt;/src/adapters/gcp/ (Secret Manager, Firestore, Storage)
+- Import patterns:
+  - src/index.ts wires adapters into core (dependency injection).
+  - src/core/ imports only from src/neutral/ (interfaces, never implementations).
+  - No @google-cloud/* imports anywhere except src/adapters/gcp/*.ts.</code></pre>
+
+<p>Same challenge, totally different starting points. Python with a shared library you import from. TypeScript with hexagonal architecture and dependency injection. The question: does it matter?</p>
+
+<h3>The Results</h3>
+
+<table class="score-table">
+    <thead>
+        <tr><th>Agent</th><th>Seed</th><th>Language</th><th>Tests</th><th>Scar</th><th>Principles</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>agent-1</td><td>flux-001</td><td><span class="tag">Python</span></td><td>63.0</td><td>5.0</td><td>18.0</td><td><span class="highlight">86.0</span></td></tr>
+        <tr><td>agent-4</td><td>carbon-steel</td><td><span class="tag">Rust</span></td><td>63.0</td><td>5.0</td><td>18.0</td><td><span class="highlight">86.0</span></td></tr>
+        <tr><td>agent-2</td><td>stoic-runner</td><td><span class="tag">Go</span></td><td>63.0</td><td>5.0</td><td>17.0</td><td>85.0</td></tr>
+        <tr><td>agent-3</td><td>rapidpulse</td><td><span class="tag">TypeScript</span></td><td>61.0</td><td>5.0</td><td><span class="lowlight">2.0</span></td><td><span class="lowlight">68.0</span></td></tr>
+    </tbody>
+</table>
+
+<p>Python tied Rust at 86. Go was one point behind. All three passed every single test (63/63). The language didn't matter. At all.</p>
+
+<p>Then there's agent-3.</p>
+
+<h3>The agent-3 Story</h3>
+
+<p>Agent-3 (TypeScript/RapidPulse) passed 61 out of 63 tests. It built a working service. It handled risk assessment, approval queues, dry-run mode, Firestore writes, double-approve prevention &mdash; all of it. It failed exactly one functional test: <code>no_unauthenticated</code> (deployed with public access, 2 points lost).</p>
+
+<p>And then the principle judge destroyed it.</p>
+
+<pre><code>agent-3: 2.0/20
+- principle_1:  0.0    (Identity &mdash; raw secrets)
+- principle_2:  0.0    (Infrastructure)
+- principle_3:  0.0    (Communication &mdash; no retry wrappers)
+- principle_4:  0.0    (Logic &mdash; raw cloud SDK)
+- principle_5:  0.0    (Memory)
+- principle_6:  0.0    (Persistence)
+- principle_7:  0.0    (Reflexivity &mdash; no structured logging)
+- principle_8:  0.0    (Sovereignty)
+- principle_9:  2.0    (Discovery &mdash; registered in inventory)
+- principle_10: 0.0    (Temporality)</code></pre>
+
+<p>2 out of 20. The only principle it passed was Discovery. Everything else: zero.</p>
+
+<p>Compare to agent-1:</p>
+
+<pre><code>agent-1: 18.0/20
+- principle_1:  2.0
+- principle_2:  2.0
+- principle_3:  2.0
+- principle_4:  2.0
+- principle_5:  2.0
+- principle_6:  2.0
+- principle_7:  2.0
+- principle_8:  2.0
+- principle_9:  0.0    (missed inventory &mdash; ironic)
+- principle_10: 2.0</code></pre>
+
+<p>So what happened? Agent-1's genome says: <em>"Import <code>fetch_secret</code>, <code>create_logger</code>, <code>retry_with_backoff</code> from <code>lib.caf_helpers</code>. Never use raw <code>google.cloud.*</code>."</em> That's a direct instruction. The agent followed it.</p>
+
+<p>Agent-3's genome prescribed <code>src/neutral/</code> interfaces, <code>src/adapters/gcp/</code> implementations, dependency injection at the handler level. Architecturally sophisticated. But the LLM agent couldn't wire it up correctly. The principle judge saw raw SDK usage and scored zeros across the board.</p>
+
+<p><strong>The takeaway: "Import these three functions" beat "implement this hexagonal pattern" because the LLM could follow one instruction literally and couldn't reliably construct the other from a description.</strong></p>
+
+<h3>Across Both Challenges</h3>
+
+<table class="score-table">
+    <thead>
+        <tr><th>Challenge</th><th>Date</th><th>Agents</th><th>Best Score</th><th>Languages</th><th>Winner</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>approval-relay</td><td>2026-02-08</td><td>4</td><td>86.0</td><td>Py, Go, TS, Rust</td><td>Python + Rust</td></tr>
+        <tr><td>request-journal</td><td>2026-02-09</td><td>3</td><td>82.0</td><td>Py, Go, TS</td><td>Python + TS</td></tr>
+    </tbody>
+</table>
+
+<p><strong>request-journal</strong> was the cleanest split. Python and TypeScript both scored 82.0 &mdash; identical. Same tests passed (55/55), same scar tissue (9/9), same principle score (18/20). The Go agent scored 9.0: it failed to deploy at all (0/55 tests, not even judged on principles). The Go toolchain + Docker build + Cloud Run deploy chain was too heavy &mdash; infrastructure friction killed it within the timeout.</p>
+
+<p>The pattern across both: <strong>language barely matters for functional correctness. Architectural style and principle adherence are what separate the scores. And deployment complexity can be a total disqualifier.</strong></p>
+
+</body>
+</html>
